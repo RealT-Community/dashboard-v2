@@ -13,6 +13,7 @@ import {
 
 import { CurrencyField, DecimalField } from '../../commons'
 import usexDAIUSDRate from 'src/store/features/rates/usexDAIUSDRate'
+import { useStableDebtBalance, useStableDepositBalance } from 'src/store/features/rmm/useStableBalance'
 
 export const SummaryCard: FC = () => {
   const { t } = useTranslation('common', { keyPrefix: 'summaryCard' })
@@ -22,9 +23,11 @@ export const SummaryCard: FC = () => {
   const rmmValue = useSelector(selectOwnedRealtokensValueRmm)
   const rmmDetails = useSelector(selectRmmDetails)
   const realtokenValue = gnosisValue + ethereumValue + rmmValue
-  const stableDepositValue = rmmDetails.stableDeposit
-  const stableDebtValue = rmmDetails.stableDebt
+  const stableDepositValue = useStableDepositBalance();
+  const stableDebtValue = useStableDebtBalance();
+
   const xDaiUSDRate = usexDAIUSDRate();
+  if(stableDepositValue === undefined || stableDebtValue === undefined) return null;
   if(!xDaiUSDRate) return null;
   const totalNetValue = realtokenValue + (stableDepositValue - stableDebtValue) * xDaiUSDRate;
 
