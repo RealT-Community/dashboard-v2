@@ -16,10 +16,8 @@ export const RealtimeIndicator: FC = () => {
   if (rentCalculation !== RentCalculation.Realtime) return null;
 
   return (
-    <div>
-      <Badge key='realtime' leftSection='⏰'>
-        {t('realtime')}
-      </Badge>
-    </div>
+    <Badge key='realtime' leftSection='⏰' mx={15}>
+      {t('realtime')}
+    </Badge>
   )
 }
